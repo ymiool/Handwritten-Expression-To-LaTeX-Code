@@ -12,14 +12,14 @@ def get_dirlist(path) :
     return dirlist
 
 
-def rename(dir_name):
+def rename(dir_name, s):
     root = r"./DataSet1/"
     for char in get_dirlist(root + dir_name + '/'):
         i = 1
         dir_list = get_dirlist(root + dir_name + '/' + char + '/')
         dir_list.sort()
         for img in dir_list:
-            os.rename(root + dir_name + '/' + char + '/' + img, root + dir_name + '/' + char + '/' + char +'_' + str(i) + '.png')
+            os.rename(root + dir_name + '/' + char + '/' + img, root + dir_name + '/' + char + '/' + char + s + str(i) + '.png')
             i = i + 1
 
 
@@ -30,7 +30,7 @@ def ramdom_images(type, len_image):
     root = r"./DataSet1/"
     for char in get_dirlist(root + "raw/"):
         if not os.path.exists(root + type + '/' + char): os.makedirs(root + type + '/' + char)
-        random_img_list = random.sample(get_dirlist(root + "raw/" + char), len_image)
+        random_img_list = random.sample(get_dirlist(root + "raw/" + char), len_image - len(get_dirlist(root + type + '/' + char)))
         i = 1
         for img in random_img_list:
             move(root + "raw/" + char + "/" + img, root + type + '/'  + char + "/" + char + '_' + str(i) + '.png')
@@ -56,8 +56,15 @@ def test_acc():
 
 
 if __name__ == "__main__" :
-    # rename('raw')
-    # ramdom_images('train', 40)
+
+    #rename('raw', '__')
+    #rename('raw', '_')
+    #rename('train', '___')
+    #rename('train', '_')
+    #rename('test', '__')
+    #rename('test', '_')
+    #ramdom_images('test', 10)
+    #rename('test', '_')
     # ramdom_images('test', 10)
 
     test_acc()

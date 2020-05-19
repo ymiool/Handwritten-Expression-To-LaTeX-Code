@@ -38,7 +38,7 @@ class Model:
         self.label_text = []
 
 
-model1 = Model('model1', 'DataSet1', 60, 15)
+model1 = Model('model1', 'DataSet1', 45, 40)
 
 use_model = model1
 
@@ -168,10 +168,11 @@ def train():
     net.save_weights(r'./' + use_model.name + '/weights.ckpt')
 
     # 准确率评估
-    util.test_acc()
+
 
 if __name__ == '__main__':
     train()
+    util.test_acc()
     print(use_model.classes)
     print(use_model.dirlist)
 
