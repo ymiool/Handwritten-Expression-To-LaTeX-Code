@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <title>hw2l 增加数据集</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="./static/css/main.css">
+
+</head>
+
+<body>
+
+  <div id="pad">
+    <!-- 手写板 -->
+    <div class="pad-body">
+      <canvas></canvas>
+    </div>
+
+      <!-- 下部信息  -->
+    <div class="pad-footer">
+      <div class="pad-result">
+          <div id = "result-text">
+            <h5>输入标签: </h5>
+            <input type="text" id="pad-label"> </input>
+          </div>
+          <div id = "Latex"> </div>
+      </div>
+
+       <!-- 底部操作按钮 -->
+      <div class="pad-actions">
+        <button class="btn" type="button" id="pad-clear">清除</button>
+        <button class="btn" id="pad-draw">画笔</button>
+        <button class="btn" id="pad-erase">橡皮擦</button>
+        <button class="btn" type="button" id="pad-save">保存</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="./static/js/signature_pad.js"></script>
+  <script src="./static/js/app-data.js"></script>
+</body>
+
+</html>
