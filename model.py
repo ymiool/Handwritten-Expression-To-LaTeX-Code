@@ -38,7 +38,7 @@ class Model:
         self.label_text = []
 
 
-model1 = Model('model1', 'DataSet1', 45, 40)
+model1 = Model('model1', 'DataSet1', 60, 40)
 
 use_model = model1
 
@@ -172,7 +172,7 @@ def train():
 
 if __name__ == '__main__':
     train()
-    util.test_acc()
+    #util.test_acc()
     print(use_model.classes)
     print(use_model.dirlist)
 

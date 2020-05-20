@@ -1,3 +1,4 @@
+var label;
 // 获取画布canvas对象
 var canvas = document.querySelector("canvas");
 
@@ -21,6 +22,59 @@ window.onresize = resizeCanvas;
 resizeCanvas();
 
 
+function get_raw_dataset() {
+
+        //用 request 请求 与后端通信, POST
+    var request = new XMLHttpRequest();
+
+    // 处理请求返回
+    console.log("开始获取文件信息");
+
+    request.onreadystatechange = function () {
+          if (request.readyState == 4) {
+              if ((request.status >= 200 && request.status < 300) || request.status == 304) {
+                 //console.log(request.response)
+                    var label_list = JSON.parse(request.response).label_list;
+                    show_li(label_list);
+              }
+          }
+      };
+
+    request.open("POST", "/adddata/get_raw_dataset"); //具体的POST
+    request.setRequestHeader('content-type', 'application/json');
+    request.send();
+}
+
+/*
+function update() {
+    var request = new XMLHttpRequest();
+
+    // 处理请求返回
+    console.log("开始获取文件信息");
+
+    request.onreadystatechange = function () {
+          if (request.readyState == 4) {
+              if ((request.status >= 200 && request.status < 300) || request.status == 304) {
+                 //console.log(request.response)
+                    var label_list = JSON.parse(request.response).label_list;
+
+                        var li_wrap = document.getElementById('select_label');
+                        var lis = li_wrap.childNodes;
+                        for(var i in lis){
+                            lis[i].innerHTML = label_list[i].label.toString() + '<span class = "color_text" >'  +'(' + label_list[i].len.toString() +')'  + '</span>';
+                        }
+
+              }
+          }
+      };
+
+    request.open("POST", "/adddata/get_raw_dataset"); //具体的POST
+    request.setRequestHeader('content-type', 'application/json');
+    request.send();
+
+
+}*/
+
 //保存图片数据。图片+标签
 function save_img(label) {
     imgData = {URL: hwPad.toDataURL().substring(22), LABEL:label}; //获取手写板的图片信息、去掉b64头部、JSON化, 便于与后端通信
@@ -34,6 +88,7 @@ function save_img(label) {
                   //console.log(request.response)
                   alert("成功保存" + request.response + "张" + label);
                     hwPad.clear();
+                    //update();
               }
           }
       };
@@ -81,6 +136,34 @@ document.getElementById('pad-save').addEventListener('click', function() {
   if (hwPad.isEmpty()) {
     alert("请书写一个数字");
   } else {
-     save_img(document.getElementById("pad-label").value);
+     save_img(label.toString());
   }
 });
+
+
+
+function show_li(label_list){
+    console.log(label_list);
+
+    var li_wrap = document.getElementById('select_label');
+
+    for(var i in label_list){
+        var item = document.createElement("li");
+        item.innerHTML = label_list[i].label.toString() + '<span class = "color_text" >'  +'(' + label_list[i].len.toString() +')'  + '</span>';
+        item.setAttribute('value', i);
+        item.addEventListener('click', function () {
+            label = label_list[this.getAttribute('value')].label.toString();
+            //alert(label.toString());
+            $(this).addClass("selected").siblings().removeClass("selected");
+        });
+        li_wrap.appendChild(item);
+    }
+
+}
+
+window.onload = function() {
+    get_raw_dataset();
+};
+
+
+

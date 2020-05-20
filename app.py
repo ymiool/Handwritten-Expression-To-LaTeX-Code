@@ -1,9 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import os
 from datetime import timedelta
 
 import predict
 import CV
+import util
 
 app = Flask(__name__)
 app.debug = True
@@ -49,6 +50,22 @@ def save_img():
 
         return CV.process_save(img, path, label)
 
+
+# 获取raw Dataset 的图片信息
+@app.route('/adddata/get_raw_dataset', methods=["POST"])
+def get_raw_dataset():
+    print("开始获取信息")
+    if request.method == 'POST':
+        print("获取raw信息")
+        json = {"label_list":[]}
+        label_list = json["label_list"]
+        root = r"./DataSet1/"
+        char_list = util.get_dirlist(root + "raw/")
+        char_list.sort()
+        for char in char_list:
+            char_json = {'label': char, 'len': len(util.get_dirlist(root + "raw/" + char))}
+            label_list.append(char_json)
+    return jsonify(json)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=2426)
