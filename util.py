@@ -57,8 +57,8 @@ def test_acc():
 
 if __name__ == "__main__" :
 
-    rename('raw', '__')
-    rename('raw', '_')
+    #rename('raw', '__')
+    #rename('raw', '_')
     #rename('train', '___')
     #rename('train', '_')
     #rename('test', '__')
@@ -66,7 +66,7 @@ if __name__ == "__main__" :
     #ramdom_images('test', 10)
     #rename('test', '_')
     # ramdom_images('test', 10)
-
+    #print(len(predict.the_model.dirlist))
     test_acc()
     #print(predict.the_model.dirlist)
 

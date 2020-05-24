@@ -7,9 +7,9 @@ import os
 def read_by_type(img, type):
     """
     按不同类型读取cv图片
-    :param img:
-    :param type:
-    :return:
+    :param img:  图片数据，可以为目录或base64编码
+    :param type: 选择图片数据的类型，'path' 或者 'b64'
+    :return: cv2 可用的图片数据
     """
     if type == 'path':
         img = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
@@ -21,8 +21,8 @@ def read_by_type(img, type):
 def pre_p(img):
     """
     图片预处理，二值，反转
-    :param img:
-    :return:
+    :param img: 待处理图片
+    :return: 二值、反转后的图片
     """
     ret, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
     return img
@@ -30,9 +30,9 @@ def pre_p(img):
 
 def rawBox(img):
     """
-    框出图片中的字符
-    :param img: 需要识别的图片
-    :return: 框出的矩形坐标信息数组
+    获取图中各字符的原始最小边框（BoundingBox）
+    :param img: 手写数学公式图片
+    :return: BoundingBox坐标信息list
     """
     # cv2 找轮廓
     # ret, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)  # 二值化, 黑白翻转， thresh 为处理后
@@ -62,8 +62,8 @@ def rawBox(img):
 def padding_resize(img, re_size):
     """
     缩放、填充至对应的图片分辨率
-    :param img:
-    :param re_size: 正方形的边长
+    :param img
+    :param re_size: 数据集图片的分辨率（边长）。此处为 128
     :return: 处理后的图片
     """
 
@@ -90,10 +90,10 @@ def padding_resize(img, re_size):
 
 def get_resized_cut(img, rec, re_size):
     """
-    符合数据集规范的cut图
-    :param img:
-    :param rec:
-    :param re_size:
+    符合数据集规范的cut图（分割、二值、反转、分辨率）
+    :param img: 预处理后的图
+    :param rec: BoundingBox 坐标信息
+    :param re_size: 分辨率（边长）
     :return:
     """
     return padding_resize(img[rec[0][1]:rec[1][1], rec[0][0]:rec[1][0]], re_size)
@@ -101,11 +101,10 @@ def get_resized_cut(img, rec, re_size):
 
 def draw_box_and_text(img, rec, label):
     """
-    在预处理的图片上框出字符、标注预测值
-    :param img:
-    :param rec:
-    :param label:
-    :return:
+    在预处理后的图片上框出字符、标注预测值
+    :param img
+    :param rec
+    :param label
     """
     cv2.rectangle(img, rec[0], rec[1], (255, 255, 255), 1)  # 顺便画出框
     cv2.putText(img, label, rec[0], cv2.FONT_HERSHEY_PLAIN, 3, (100, 200, 200), 2)
@@ -117,10 +116,11 @@ def write_img(path, img):
 
 def process_save(img, path, label):
     """
-    处理数据集图片，处理至黑底白字，相应分辨率，一张图中可以有多个手写数据，并重命名保存至相应路径
-    :param img:
-    :param name:
-    :return:
+    数据集图像采集：分割处理原始手写字符图像，重命名保存至相应标签目录
+    :param img: 原始手写字符图像，一张图内可有多个手写字符
+    :param path: 保存的上级目录，如 ./DataSet1/raw
+    :param label: 手写字符标签，作为目录名
+    :return: 成功保存的图片数
     """
 
     # 预处理
@@ -145,6 +145,7 @@ def process_save(img, path, label):
 
 
 if __name__ == "__main__":
+    '''
     re_size = 128
 
     data_set = "DataSet1"
@@ -179,5 +180,7 @@ if __name__ == "__main__":
             process_save(img, r'./' + data_set + '/test/', dir.split('_', 1)[0])
             i = i + 1
 
+    '''
+    #print(cv2.__version__)
 
 

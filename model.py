@@ -38,7 +38,7 @@ class Model:
         self.label_text = []
 
 
-model1 = Model('model1', 'DataSet1', 60, 40)
+model1 = Model('model1', 'DataSet1', 55, 40)
 
 use_model = model1
 
@@ -110,6 +110,9 @@ def preprocess(x, y):
 
 
 def train():
+    hidden_dim = 600
+
+
     # 载入数据集、预处理
     (x_train, y_train), (x_test, y_test) = load_data()
     print('datasets:', x_train.shape, y_train.shape, x_train.min(), x_train.max())
@@ -141,7 +144,7 @@ def train():
         layers.Flatten(),
 
         # 加几层全连接的神经网络， n是该层输出的神经元数
-        layers.Dense(600, activation='relu'),
+        layers.Dense(hidden_dim, activation='relu'),
 
 
         # 输出层。 此层分几类，就设几个输出神经元数. 输出层用 softmax 激活函数

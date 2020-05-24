@@ -18,7 +18,6 @@ slash = ['pi', 'times']
 
 
 class Symbol:
-    label = None
 
     def __init__(self, label, x, y, xw, yh):
         self.label = label
@@ -153,7 +152,7 @@ def toLatex(symbol_list):
             latex.append(r'\sqrt' + '{' + toLatex(get_inner_symbols(symbol, symbol_list)) + '}')
 
 
-        # 乘号、小数点修改
+        # 小数点修改
         elif symbol.label == 'dot':
             latex.append('.')
 
