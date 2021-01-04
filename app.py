@@ -68,4 +68,4 @@ def get_raw_dataset():
     return jsonify(json)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=2426)
+    app.run(host='0.0.0.0', port=5050)
